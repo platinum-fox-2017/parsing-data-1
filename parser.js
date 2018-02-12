@@ -18,7 +18,7 @@ class PersonParser {
 
   constructor(data) {
     this._file = data
-    this._people = []
+    this._people = this.convertToPerson()
   }
 
   get people() {
@@ -27,37 +27,37 @@ class PersonParser {
 
   addPerson(personObject) {
     this._people.push(personObject)
-    return this
+    // return this
   }
 
   convertToPerson(){
-      // loop thru data
-        // split data
-    for (let i = 1; i < this._file.length; i++) {
+    let peopleArr = []
+    for (let i = 1; i < this._file.length-1; i++) {
       // console.log(i);
       let pData = this._file[i].split(',')
       let date = new Date(pData[5])
-      if (i === 1) {
-        console.log(pData[5]);
-        console.log(date);
-      }
       let personObject = new Person (Number(pData[0]), pData[1],pData[2], pData[3],pData[4], date)
-      this._people.push(personObject)
+      peopleArr.push(personObject)
     }
-    return this
+    return peopleArr
   }
 
   save(){
     let data = this._people
+    console.log(data.length);
     let prop = Object.getOwnPropertyNames(data[1]).join(',')
     // console.log(prop);
     let result = []
-    for (let i = 0; i < data.length; i++) {
-      let newData = Object.values(data[i]).join(',')
-      result.push(newData)
+    for (let i = 0; i < data.length+1; i++) {
+      if (i === 0) {
+        result.push(prop)
+      } else {
+        let newData = Object.values(data[i-1]).join(',')
+        result.push(newData)
+      }
+
     }
     result = result.join('\n')
-    // console.log(result);
     fs.writeFileSync('./people-updated.csv', result, 'UTF-8', 'w')
   }
 
@@ -68,8 +68,15 @@ const data = fs.readFileSync('./people.csv', 'UTF-8').split('\r\n')
 
 
 let parser = new PersonParser(data)
-parser.convertToPerson()
+// parser.convertToPerson()
+console.log(parser._people.length);
 parser.addPerson(new Person(201, 'Fransiskus', 'Teddy', 'ain@gmail.com', '1-098-012-9131', '2018-02-2T01:23:51-07:00'))
-console.log(parser._people);
+// let test = new Person(201, 'Fransiskus', 'Teddy', 'ain@gmail.com', '1-098-012-9131', '2018-02-2T01:23:51-07:00')
+// // console.log(test);
+// parser.addPerson(test)
+// console.log(parser._people[201]);
+
 parser.save()
+console.log(parser._people.length);
+
 // console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
