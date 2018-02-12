@@ -11,7 +11,7 @@ class Person {
     this.last_name = last_name
     this.email = email
     this.phone = phone
-    this.created_at = new Date()
+    this.created_at = created_at
    }
 }
 
@@ -59,7 +59,7 @@ class PersonParser {
       arr.push(data.last_name)
       arr.push(data.email)
       arr.push(data.phone)
-      arr.push(data.created_at)
+      arr.push(new Date(data.created_at))
       strResult += '\n' + arr
     })
     fs.writeFileSync(this._file, strResult)
@@ -68,10 +68,5 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
-// parser.people
-// console.log(parser.people.addPerson(201,'Steve','Jobs','stevejobs@apple.com','121-7845-9089').save());
-// parser.save()
-// console.log(parser.people);
-// console.log(parser.size);
-console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
-// console.log(parser.save());
+console.log(parser.people.addPerson(201,'Steve','Jobs','stevejobs@apple.com','121-7845-9089').save());
+// console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
