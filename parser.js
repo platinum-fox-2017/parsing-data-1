@@ -10,7 +10,7 @@ class Person {
     this.last_name = lastName
     this.email = email
     this.phone = phone
-    this.created  = created
+    this.created  = created || new Date().toISOString()
 
   }
 }
@@ -24,7 +24,6 @@ class PersonParser {
 
   get people() {
     for(let i=1; i<read_data.length; i++){
-      // let obj = new Person(value[0],value[1])
       let property = read_data[0].split(',')
       let value = read_data[i].split(',')
 
@@ -41,7 +40,9 @@ class PersonParser {
     return this._people
   }
 
-  addPerson() {}
+  addPerson() {
+    
+  }
 
 }
 
@@ -52,6 +53,4 @@ let parser = new PersonParser('people.csv')
 
 console.log(parser.people)
 // console.log(personInfo._firstName)
-
 // console.log(read_data)
-// console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
