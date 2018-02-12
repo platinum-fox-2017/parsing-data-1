@@ -4,13 +4,13 @@ const fs = require('fs')
 class Person {
   // Look at the above CSV file
   // What attributes should a Person object have?
-  constructor(array) {
-    this._id = array[0]
-    this._firstname = array[1]
-    this._lastname = array[2]
-    this._email = array[3]
-    this._phone = array[4]
-    this._createdAt = array[5]
+  constructor(id, firstname, lastname, email, phone, createdAt) {
+    this.id = id
+    this.firstname = firstname
+    this.lastname = lastname
+    this.email = email
+    this.phone = phone
+    this.createdAt = createdAt
   }
 }
 
@@ -18,32 +18,42 @@ class PersonParser {
 
   constructor(file) {
     this._file = file
-    this._people = null
     this._data = this.read()
   }
 
   read() {
     let contents = fs.readFileSync(this._file, 'utf-8').split('\n')
-    let header = contents[0]
-    // console.log(header)
     let content = []
     for (let index = 1; index < contents.length; index++) {
       let tempContent = contents[index].split(',')
-      let object = new Person(tempContent)
+      let object = new Person(tempContent[0], tempContent[1], tempContent[2], tempContent[3], tempContent[4], tempContent[5])
       content.push(object)
     }
     return content
   }
 
-  get people() {
-    return this._people
+  addPerson(person) {
+    this._data.push(person)
+    return this._data
   }
 
-  addPerson() { }
+  save() {
+    let newPeople = []
+    console.log(this._data[0].firstname)
+    for (let index = 0; index < this._data.length; index++) {
+      newPeople.push([])
+      newPeople[index].push(this._data[index].id, this._data[index].firstname, this._data[index].lastname, this._data[index].email, this._data[index].phone, this._data[index].createdAt)
+    }
+    newPeople.unshift(['id', 'first_name', 'last_name', 'email', 'phone', 'created_at'])
+    // console.log(newPeople)
+    fs.writeFileSync(this._file, newPeople.join('\n'));
+  }
 
 }
 
 let parser = new PersonParser('people.csv')
-// parser.read()
-console.log(parser.read())
+// console.log(parser)
+parser.addPerson(new Person(parser._data.length + 1, 'andrew', 'kusuma', 'andrew.budikusuma@gmail.com', '085880016822', new Date()))
 // console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
+// console.log(parser._data.length)
+parser.save()
