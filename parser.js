@@ -1,7 +1,7 @@
 "use strict"
 
 var fs = require('fs')
-var read_data = fs.readFileSync('people.csv','utf8').toString().split("\n")
+
 
 class Person {
   constructor(id, firstName, lastName, email, phone, created){
@@ -10,9 +10,10 @@ class Person {
     this.last_name = lastName
     this.email = email
     this.phone = phone
-    this.created  = created || new Date().toISOString()
+    this.created  = created || new Date().toString()
 
   }
+
 }
 
 class PersonParser {
@@ -22,35 +23,46 @@ class PersonParser {
     this._people = []
   }
 
-  get people() {
-    for(let i=1; i<read_data.length; i++){
-      let property = read_data[0].split(',')
-      let value = read_data[i].split(',')
-
-      let objPerson =  new Person(this._people[property[0]] = value[0],
-        this._people[property[1]] = value[1],
-        this._people[property[2]] = value[2],
-        this._people[property[3]] = value[3],
-        this._people[property[4]] = value[4],
-        this._people[property[5]] = value[5])
-
-        this._people.push(objPerson)
+  objPerson(){
+    let arrPerson = []
+    let read_data = fs.readFileSync('./people.csv').toString().trim().split("\n")
+    for(let i=0; i<read_data.length; i++){
+    // let property = read_data[0].split(',')
+      arrPerson.push(read_data[i].split(','))
+    }
+    for(let j=1; j<arrPerson.length; j++){
+      let dataPerson =  new Person(arrPerson[j][0], arrPerson[j][1], arrPerson[j][2], arrPerson[j][3], arrPerson[j][4], arrPerson[j][5])
+      this._people.push(dataPerson)
     }
 
     return this._people
   }
 
+  get people() {
+    return {size: this._people.length}
+  }
+
   addPerson() {
-    
+    let addData = new Person(`${this._people.length+ 1}`, 'Agung', 'Prabowo', 'agungp@pindad.com', '087822171172','')
+    this._people.push(addData)
+    let dataTemp = `${addData.id},${addData.first_name},${addData.last_name},${addData.email},${addData.phone},${addData.created}\n`
+    fs.appendFile('./people.csv', dataTemp, (err) => {
+      if (err) throw err;
+      console.log('Data baru telah ditambahkan ke dalam file CSV');
+    });
   }
 
 }
 
 
 
-let parser = new PersonParser('people.csv')
-// let personInfo = new Person()
+let parser = new PersonParser('./people.csv')
 
-console.log(parser.people)
+
+parser.objPerson()
+parser.addPerson()
+console.log(`Data people ke-${parser.people.size} dalam  '${parser._file}'.`)
+parser._people
+// console.log(parser.objPerson())
 // console.log(personInfo._firstName)
 // console.log(read_data)
