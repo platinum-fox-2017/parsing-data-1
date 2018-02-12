@@ -2,60 +2,42 @@
 
 class Person {
   constructor(id,firstName,lastName,email,phone,createdAt){
-    this._id = id;
-    this._firstName = firstName;
-    this._lastName = lastName;
-    this._email = email;
-    this._phone = phone;
-    this._createdAt = createdAt;
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.phone = phone;
+    this.createdAt = createdAt;
   }
 
-  set id(input){
-    this._id = input;
+  id(){
+    this.id = input;
+    return this.id;
   }
 
-  get id(){
-    return this._id;
+  firstName(){
+    this.firstName = input;
+    return this.firstName;
   }
 
-  set firstName(input){
-    this._firstName = input;
+  lastName(){
+    this.lastName = input;
+    return this.lastName;
   }
 
-  get firstName(){
-    return this._firstName;
+  email(){
+    this.email = input;
+    return this.email;
   }
 
-  set lastName(input){
-    this._lastName = input;
+  phone(){
+    this.phone = input;
+    return this.phone;
   }
 
-  get lastName(){
-    return this._lastName;
-  }
-
-  set email(input){
-    this._email = input;
-  }
-
-  get email(){
-    return this._email;
-  }
-
-  set phone(input){
-    this._phone = input;
-  }
-
-  get phone(){
-    return this._phone;
-  }
-
-  set createdAt(input){
-    this._createdAt = input;
-  }
-
-  get createdAt(){
-    return this._createdAt;
+  createdAt(){
+    this.createdAt = input;
+    return this.createdAt;
   }
 
 }
@@ -76,7 +58,23 @@ class PersonParser {
     return this._people;
   }
 
-  addPerson() {}
+  addPerson(input){
+    this._people.push(input);
+    return this._people;
+  }
+
+  save(){
+      let updatedData = [];
+      for(let j=0; j<this._people.length; j++){
+        updatedData.push(`${this._people[j].id},${this._people[j].firstName},${this._people[j].lastName},${this._people[j].email},${this._people[j].phone},${this._people[j].createdAt},`)
+      }
+      let updatedDataNewFormat = updatedData.join('\n');
+      console.log(updatedDataNewFormat);
+      fs.writeFile('people.csv', updatedDataNewFormat, 'UTF-8', function(err){
+        if (err) throw err;
+        console.log('Saved!');
+      });
+    }
 
 }
 
@@ -85,5 +83,6 @@ var dataInput = fs.readFileSync('people.csv', 'UTF-8')
   .split('\n');
 var parser = new PersonParser(dataInput);
 console.log(parser.people);
-
-// console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
+parser.addPerson(new Person('201','Fitrul,Islam','fitrul.islam@gmail.com','62-856-1111-2222','2018-02-12T18:02:30-07:00'));
+parser.save();
+console.log(`There are ${parser.people.length-1} people in the file '${parser.file}'.`)
