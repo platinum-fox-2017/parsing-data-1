@@ -53,7 +53,27 @@ class PersonParser {
 
 
   }
-
+  save(){
+    let str = ''
+    str+= 'id,first_name,last_name,email,phone,created_at'
+    // console.log(str)
+    for(let i =0; i<this._people.length;i++){
+      let arr = []
+      if(this._people[i].id !== '' &&this._people[i].first_name !== '' &&this._people[i].last_name !== '' &&this._people[i].email !== '' &&this._people[i].phone !== '' &&this._people[i].created_at !== ''){
+        arr.push(this._people[i].id)
+        arr.push(this._people[i].first_name)
+        arr.push(this._people[i].last_name)
+        arr.push(this._people[i].email)
+        arr.push(this._people[i].phone)
+        arr.push(new Date(this._people[i].created_at))
+        str+= '\n'+arr
+      }
+      
+    }
+    // console.log(str)
+    let writeData = fs.writeFileSync(this._file,str,'utf8')
+    return writeData
+  }
 
 }
 
@@ -62,4 +82,4 @@ console.log(parser.people)
 console.log(`There are ${parser.size} people in the file '${parser.file}'.`)
 
 console.log(parser.addPerson(new Person(parser.size+1,'Roger','Federer','rogerf@gmail.com','62134659232',new Date())))
-
+parser.save()
