@@ -18,6 +18,13 @@ class PersonParser {
     this._people = new Array();
     this.data = fs.readFileSync(this.file,'utf8').split('\n');
     this.write = new String();
+    this.read_to_object();
+  }
+
+  read_to_object(){
+      for(let i = 1; i<this.data.length; i++){
+          this.addPerson(new Person(this.data[0].split(","),this.data[i].split(",")));
+      }
   }
 
   get people() {
@@ -31,7 +38,6 @@ class PersonParser {
   save(){
       this.write += (Object.keys(this._people[0]).join(',')+'\n');
       for(let i = 1; i < this._people.length; i++){
-          // this.write += (Object.values(this._people[i]).join(',')+'\n');
           this.write += this.obj_to_string(this._people[i]);
       }
       fs.writeFileSync('./people_output.csv',this.write);
@@ -44,10 +50,6 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv');
-
-for(let i = 1; i<parser.data.length; i++){
-    parser.addPerson(new Person(parser.data[0].split(","),parser.data[i].split(",")));
-}
 
 console.log(parser.file);
 console.log(parser.people);
