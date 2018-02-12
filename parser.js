@@ -1,6 +1,8 @@
 "use strict"
 const fs = require('fs')
+const faker = require('faker');
 const Person = require('./person.js')
+// console.log(faker)
 
 class PersonParser {
   constructor(file) {
@@ -52,8 +54,13 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
-// console.log(parser.people)
+
 console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
 
-console.log(parser.addPerson(new Person(parser.size+1,'Roger','Federer','rogerf@gmail.com','62134659232',new Date())))
+let firstName = faker.name.firstName()
+let lastName = faker.name.lastName()
+let email = faker.internet.email()
+let phone = faker.phone.phoneNumber()
+
+console.log(parser.addPerson(new Person(parser.size+1,firstName,lastName,email,phone,new Date())))
 parser.save()
