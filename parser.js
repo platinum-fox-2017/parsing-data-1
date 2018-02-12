@@ -11,8 +11,6 @@ class Person {
     this.phone = data.phone;
     this.create_at = data.create_at;
   }
-
-
 }
 
 class PersonParser {
@@ -23,7 +21,7 @@ class PersonParser {
   }
 
   parse(file) {
-    let data = fs.readFileSync(file, 'utf8').split('\r\n');
+    let data = fs.readFileSync(file, 'utf8').split('\n');
     let result = [];
 
     for (let i = 1; i < data.length; i++) {
@@ -64,7 +62,7 @@ class PersonParser {
       data += this.convertObjtoStr(this._people[i]);
     }
 
-    fs.writeFileSync('new_people.csv', data);
+    fs.writeFileSync('people.csv', data);
   }
 
   convertObjtoStr(obj) {
@@ -80,7 +78,7 @@ let parser = new PersonParser('people.csv');
 console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`);
 
 parser.addPerson(new Person({
-  id: '201',
+  id: 201,
   first_name: 'Ardhiansyah',
   last_name: 'Putra',
   email: 'email@mail.com',
