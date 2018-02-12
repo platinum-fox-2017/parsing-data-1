@@ -16,7 +16,7 @@ class PersonParser {
       let inputData = new Person (dataInside[0],dataInside[1],dataInside[2],dataInside[3],dataInside[4],dataInside[5])
       this._people.push(inputData)
     }
-    return this._people
+    return this
   }
   get size(){
     return this._people.length
@@ -52,8 +52,8 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
-console.log(parser.people)
-console.log(`There are ${parser.size} people in the file '${parser.file}'.`)
+// console.log(parser.people)
+console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
 
 console.log(parser.addPerson(new Person(parser.size+1,'Roger','Federer','rogerf@gmail.com','62134659232',new Date())))
 parser.save()
