@@ -36,12 +36,12 @@ class PersonParser {
     for (let i = 1; i < this._file.length; i++) {
       // console.log(i);
       let pData = this._file[i].split(',')
-      let date = new Date(pData[5])
+      let date = new Date('2012-05-10T03:53:40-07:00')
       if (i === 1) {
         console.log(pData[5]);
         console.log(date);
       }
-      let personObject = new Person (pData[0], pData[1],pData[2], pData[3],pData[4], date)
+      let personObject = new Person (Number(pData[0]), pData[1],pData[2], pData[3],pData[4], date)
       this._people.push(personObject)
     }
     return this
@@ -63,13 +63,13 @@ class PersonParser {
 
 }
 
-const data = fs.readFileSync('./people.csv', 'UTF-8').split('\n')
-// console.log(data.length);
+const data = fs.readFileSync('./people.csv', 'UTF-8').split('\r\n')
+// console.log(data);
 
 
 let parser = new PersonParser(data)
 parser.convertToPerson()
 parser.addPerson(new Person(201, 'Fransiskus', 'Teddy', 'ain@gmail.com', '1-098-012-9131', '2018-02-2T01:23:51-07:00'))
-console.log(parser._people[0]);
-// parser.save()
+// console.log(parser._people[0]);
+parser.save()
 // console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
