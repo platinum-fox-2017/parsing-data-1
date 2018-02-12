@@ -78,6 +78,6 @@ let parser = new PersonParser('people.csv')
 console.log(`There are ${parser.size} people in the file '${parser._file}'.`)
 
 // console.log(parser.csv_to_arr());
-parser.addPerson(['204','SING', 'SING', 'sing@gmail.com', '09873246542', Date.now()])
+parser.addPerson(['205','dhiar', 'asek', 'dhiar@gmail.com', '231243242', Date.now()])
 // console.log(parser.addPerson());
 parser.save()
