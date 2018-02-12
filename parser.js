@@ -9,37 +9,6 @@ class Person {
     this.phone = phone;
     this.createdAt = createdAt;
   }
-
-  id(){
-    this.id = input;
-    return this.id;
-  }
-
-  firstName(){
-    this.firstName = input;
-    return this.firstName;
-  }
-
-  lastName(){
-    this.lastName = input;
-    return this.lastName;
-  }
-
-  email(){
-    this.email = input;
-    return this.email;
-  }
-
-  phone(){
-    this.phone = input;
-    return this.phone;
-  }
-
-  createdAt(){
-    this.createdAt = input;
-    return this.createdAt;
-  }
-
 }
 
 class PersonParser {
