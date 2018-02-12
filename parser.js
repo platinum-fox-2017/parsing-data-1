@@ -8,7 +8,7 @@ class Person {
       this[arrKey[2]] = arr[2];
       this[arrKey[3]] = arr[3];
       this[arrKey[4]] = arr[4];
-      this[arrKey[5]] = arr[5];
+      this[arrKey[5]] = new Date(arr[5]);
   }
 }
 
@@ -16,7 +16,7 @@ class PersonParser {
   constructor(file) {
     this.file = file
     this._people = new Array();
-    this.data = fs.readFileSync(file,'utf8').split('\n');
+    this.data = fs.readFileSync(this.file,'utf8').split('\n');
     this.write = new String();
   }
 
@@ -31,9 +31,14 @@ class PersonParser {
   save(){
       this.write += (Object.keys(this._people[0]).join(',')+'\n');
       for(let i = 1; i < this._people.length; i++){
-          this.write += (Object.values(this._people[i]).join(',')+'\n');
+          // this.write += (Object.values(this._people[i]).join(',')+'\n');
+          this.write += this.obj_to_string(this._people[i]);
       }
       fs.writeFileSync('./people_output.csv',this.write);
+  }
+
+  obj_to_string(obj){
+      return [obj.id,obj.first_name,obj.last_name,obj.email,obj.phone, obj.created_at].join(',')+'\n';
   }
 
 }
