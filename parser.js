@@ -79,7 +79,7 @@ class PersonParser {
     return data.split('\n');
   }
 
-  get people() {
+  get people(){
     for(let i=1; i<this.data.length; i++){
       let row = this.data[i].split(',')
       let person = new Person(row[0], row[1], row[2], row[3], row[4], row[5]);
@@ -88,11 +88,28 @@ class PersonParser {
     return this._people;
   }
 
-  addPerson() {}
+  addPerson(input){
+    this._people.push(input);
+    console.log(this._people);
+  }
+
+  save(){
+    let newArr = [];
+    newArr.push('id,first_name,last_name,email,phone,created_at')
+    for(let i=0; i<this._people.length; i++){
+      newArr.push(`${this._people[i].id},${this._people[i].firstName},${this._people[i].lastName},${this._people[i].email},${this._people[i].phone},${this._people[i].createdAt},`)
+    }
+    console.log(newArr.join('\n'));
+    fs.writeFile(this._file, newArr.join('\n'), 'utf8', (err) => {
+      if (err) throw err;
+      console.log('The file has been saved!');
+    });
+  }
 
 }
 
 let parser = new PersonParser('./people.csv');
-console.log(parser.readData());
 console.log(parser.people);
+parser.addPerson(new Person('201', 'Reza', 'Pramudhika', 'rezapramudhika@gmail.com', '6281283891447', 'Mon Feb 12 2018 16:23:56 GMT+0700 (WIB)'));
 // console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`);
+parser.save();
