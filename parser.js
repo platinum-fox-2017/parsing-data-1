@@ -4,7 +4,7 @@ const fs = require('fs')
 
 class Person {
   constructor(id,firstName,lastName,email,phone,createdAt) {
-    this.id=id
+    this.id=Number(id)
     this.firstName=firstName
     this.lastName=lastName
     this.email=email
@@ -51,13 +51,13 @@ class PersonParser {
   }
 
   addPerson(obj) {
-    this.people.push(obj);
+    this._people.push(obj);
   }
 
   save() {
     let text='id,first_name,last_name,email,phone,created_at\n';
     for(let i=0; i<this._people.length; i++) {
-      let data=this.people[i];
+      let data=this._people[i];
       let strData=`${data.id},${data.firstName},${data.lastName},${data.email},${data.phone},${data.createdAt}\n`
       text+=strData;
     }
@@ -68,8 +68,8 @@ class PersonParser {
 
 let parser = new PersonParser('people.csv')
 
-// parser.addPerson(new Person('201','Ervan','Adetya','ervan.adetya@gmail.com','021545444545','2012-07-15T12:06:16-07:00'))
+parser.addPerson(new Person('201','Ervan','Adetya','ervan.adetya@gmail.com','021545444545','2012-07-15T12:06:16-07:00'))
 // console.log(parser._people[parser._people.length-1])
-// parser.save();
+parser.save();
 
 console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
