@@ -34,6 +34,7 @@ class PersonParser {
 
   addPerson(person) {
     this._data.push(person)
+    console.log(person)
     return this._data
   }
 
@@ -45,7 +46,6 @@ class PersonParser {
       newPeople[index].push(this._data[index].id, this._data[index].firstname, this._data[index].lastname, this._data[index].email, this._data[index].phone, this._data[index].createdAt)
     }
     newPeople.unshift(['id', 'first_name', 'last_name', 'email', 'phone', 'created_at'])
-    // console.log(newPeople)
     fs.writeFileSync(this._file, newPeople.join('\n'));
   }
 
@@ -53,7 +53,11 @@ class PersonParser {
 
 let parser = new PersonParser('people.csv')
 // console.log(parser)
-parser.addPerson(new Person(parser._data.length + 1, 'andrew', 'kusuma', 'andrew.budikusuma@gmail.com', '085880016822', new Date()))
+let date = new Date()
+let currentDate = date.getFullYear() + '-' + date.getUTCMonth() + '-' + date.getUTCDate() + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
+  ":" + date.getMilliseconds()
+parser.addPerson(new Person(parser._data.length + 1, 'andrew', 'kusuma', 'andrew.budikusuma@gmail.com', '085880016822', currentDate))
 // console.log(`There are ${parser.people.length} people in the file '${parser.file}'.`)
 // console.log(parser._data.length)
+//
 parser.save()
