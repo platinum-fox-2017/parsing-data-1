@@ -1,14 +1,28 @@
 "use strict"
 const fs = require('fs');
 
+// class Person {
+//   constructor(arrKey, arr){
+//       this[arrKey[0]] = arr[0];
+//       this[arrKey[1]] = arr[1];
+//       this[arrKey[2]] = arr[2];
+//       this[arrKey[3]] = arr[3];
+//       this[arrKey[4]] = arr[4];
+//       this[arrKey[5]] = new Date(arr[5]);
+//   }
+// }
+
 class Person {
-  constructor(arrKey, arr){
-      this[arrKey[0]] = arr[0];
-      this[arrKey[1]] = arr[1];
-      this[arrKey[2]] = arr[2];
-      this[arrKey[3]] = arr[3];
-      this[arrKey[4]] = arr[4];
-      this[arrKey[5]] = new Date(arr[5]);
+  constructor(obj, arr){
+      let index = 0;
+      for (var i in obj){
+          if(i=='created_at'){
+              this[i] = new Date(arr[index++]);
+          }
+          else{
+              this[i] = arr[index++];
+          }
+      }
   }
 }
 
@@ -18,12 +32,25 @@ class PersonParser {
     this._people = new Array();
     this.data = fs.readFileSync(this.file,'utf8').split('\n');
     this.write = new String();
+    this.peopleObject = this.create_header(this.data[0]);
     this.read_to_object();
+  }
+
+  create_header(str){
+      let headerArr = str.split(",");
+      let tempObject = new Object();
+      for(let i = 0; i<headerArr.length;i++){
+          tempObject[headerArr[i]] = undefined;
+      }
+      console.log(tempObject);
+      return tempObject;
   }
 
   read_to_object(){
       for(let i = 1; i<this.data.length; i++){
-          this.addPerson(new Person(this.data[0].split(","),this.data[i].split(",")));
+          // this.addPerson(new Person(this.data[0].split(","),this.data[i].split(",")));
+          this.addPerson(new Person(this.peopleObject,this.data[i].split(",")));
+
       }
   }
 
