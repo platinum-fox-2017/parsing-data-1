@@ -15,6 +15,7 @@ class Person {
 class PersonParser {
 
   constructor(file) {
+    this._read_file = file
     this._file = fs.readFileSync(file, 'UTF-8').split('\n')
     this._people = new Array()
     this._locationFile = file
@@ -32,7 +33,18 @@ class PersonParser {
   }
 
   get people() {
-    return this._people
+    this._people
+    return this
+  }
+
+  get file() {
+    return this._read_file
+  }
+
+  get size() {
+    this._size = this._people.length
+    return this._size
+    // return 'as'
   }
 
   addPerson(person) {
@@ -60,4 +72,4 @@ parser.addPerson(new Person(parser.people.length + 1, 'Andrew', 'Budi', 'budi@gm
 
 parser.save()
 
-// console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
+console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
