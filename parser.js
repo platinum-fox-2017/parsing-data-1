@@ -58,8 +58,9 @@ class PersonParser {
     let text='id,first_name,last_name,email,phone,created_at\n';
     for(let i=0; i<this._people.length; i++) {
       let data=this._people[i];
-      let strData=`${data.id},${data.firstName},${data.lastName},${data.email},${data.phone},${data.createdAt}\n`
+      let strData=`${data.id},${data.firstName},${data.lastName},${data.email},${data.phone},${data.createdAt}`
       text+=strData;
+      if(i<this._people.length-1) {text+='\n';}
     }
     fs.writeFileSync(this._file,text,'utf8')
   }
@@ -69,7 +70,6 @@ class PersonParser {
 let parser = new PersonParser('people.csv')
 
 parser.addPerson(new Person('201','Ervan','Adetya','ervan.adetya@gmail.com','021545444545','2012-07-15T12:06:16-07:00'))
-// console.log(parser._people[parser._people.length-1])
 parser.save();
 
 console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
