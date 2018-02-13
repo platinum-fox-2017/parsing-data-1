@@ -32,8 +32,8 @@ class PersonParser {
 
   convertToPerson(){
     let peopleArr = []
-    for (let i = 1; i < this._file.length-1; i++) {
-      // console.log(i);
+    // console.log(this._file[this._file.length]);
+    for (let i = 1; i < this._file.length; i++) {
       let pData = this._file[i].split(',')
       let date = new Date(pData[5])
       let personObject = new Person (Number(pData[0]), pData[1],pData[2], pData[3],pData[4], date)
@@ -44,7 +44,7 @@ class PersonParser {
 
   save(){
     let data = this._people
-    console.log(data.length);
+    // console.log(data.length);
     let prop = Object.getOwnPropertyNames(data[1]).join(',')
     // console.log(prop);
     let result = []
@@ -57,26 +57,30 @@ class PersonParser {
       }
 
     }
-    result = result.join('\n')
+    result = result.join('\r\n')
     fs.writeFileSync('./people-updated.csv', result, 'UTF-8', 'w')
   }
 
 }
 
-const data = fs.readFileSync('./people.csv', 'UTF-8').split('\r\n')
+const data = fs.readFileSync('./people-updated.csv', 'UTF-8').split('\r\n')
+console.log(data);
+if (data[data.length-1] === '') {
+  data.pop()
+}
 // console.log(data);
 
 
 let parser = new PersonParser(data)
 // parser.convertToPerson()
 console.log(parser._people.length);
-parser.addPerson(new Person(201, 'Fransiskus', 'Teddy', 'ain@gmail.com', '1-098-012-9131', '2018-02-2T01:23:51-07:00'))
+parser.addPerson(new Person(201, 'Fransis', 'Teddy', 'ain@gmail.com', '1-098-012-9131', new Date('2013-12-02T06:45:30-08:00')))
 // let test = new Person(201, 'Fransiskus', 'Teddy', 'ain@gmail.com', '1-098-012-9131', '2018-02-2T01:23:51-07:00')
 // // console.log(test);
 // parser.addPerson(test)
-// console.log(parser._people[201]);
-
+// console.log(parser._people[200]);
 parser.save()
 console.log(parser._people.length);
 
-// console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
+
+// console.log(`There are ${parser._people.length} people in the file '${parser._file}'.`)
