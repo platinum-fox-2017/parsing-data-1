@@ -24,7 +24,7 @@ class PersonParser {
     let data = fs.readFileSync(file, 'utf8').split('\n');
     let result = [];
 
-    for (let i = 1; i < data.length; i++) {
+    for (let i = 1; i < data.length - 1; i++) {
       let dataPerson = data[i].split(',');
 
       result.push(new Person({
@@ -56,13 +56,14 @@ class PersonParser {
   }
 
   save() {
-    let data = 'id,first_name,last_name,email,phone,created_at\n';
+    // let data = 'id,first_name,last_name,email,phone,created_at\n';
 
-    for (let i = 0; i < this._people.length; i++) {
-      data += this.convertObjtoStr(this._people[i]);
-    }
+    // for (let i = 0; i < this._people.length; i++) {
+      // data += this.convertObjtoStr(this._people[i]);
+    // }
 
-    fs.writeFileSync('people.csv', data);
+    // fs.writeFileSync('people.csv', data);
+    fs.appendFileSync('people.csv', '\r'+this.convertObjtoStr(this._people[this._people.length - 1]));
   }
 
   convertObjtoStr(obj) {
