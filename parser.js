@@ -58,10 +58,10 @@ class PersonParser {
     let text='id,first_name,last_name,email,phone,created_at\n';
     for(let i=0; i<this._people.length; i++) {
       let data=this._people[i];
-      let strData=`${data.id},${data.firstName},${data.lastName},${data.email},${data.phone},${data.createdAt}`
+      let strData=`${data.id},${data.firstName},${data.lastName},${data.email},${data.phone},${data.createdAt}\n`
       text+=strData;
-      if(i<this._people.length-1) {text+='\n';}
     }
+    text=text.slice(0,text.length-1);
     fs.writeFileSync(this._file,text,'utf8')
   }
 
